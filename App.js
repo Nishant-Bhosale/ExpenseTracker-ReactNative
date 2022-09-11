@@ -36,7 +36,6 @@ const ExpensesOverview = () => {
 						<TabBarIcon name="calendar" color={color} size={size} />
 					),
 					title: "All Expenses",
-
 					tabBarLabel: "All Expenses",
 				}}
 			/>
