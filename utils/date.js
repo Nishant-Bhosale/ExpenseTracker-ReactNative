@@ -6,4 +6,8 @@ const getFormattedDate = (dateObj) => {
 	}-${dateObj.getDate()}`;
 };
 
-export { getFormattedDate };
+const getDateMinusDays = (date, days) => {
+	return new Date(date.getFullYear(), date.getMonth(), date.getDate() - days);
+};
+
+export { getFormattedDate, getDateMinusDays };
