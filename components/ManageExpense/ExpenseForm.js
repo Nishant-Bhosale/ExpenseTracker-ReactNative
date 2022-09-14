@@ -2,6 +2,7 @@ import { View, StyleSheet, Text, Alert } from "react-native";
 import { useState } from "react";
 import Input from "./Input";
 import Button from "../UI/Button";
+import { GlobalStyles } from "../../constants/styles";
 import { getFormattedDate } from "../../utils/date";
 
 const ExpenseForm = ({
@@ -43,7 +44,7 @@ const ExpenseForm = ({
 
 		if (!amountIsValid || !dateIsValid || !descriptionIsValid) {
 			// Alert.alert("Invalid input", "Please check your input values!");
-			setInputs((prev) => {
+			setInputs(() => {
 				return {
 					amount: { value: amount.value, isValid: amountIsValid },
 					date: { value: date.value, isValid: dateIsValid },
@@ -58,10 +59,11 @@ const ExpenseForm = ({
 
 		const expenseData = {
 			amount: +amount.value,
-			date: new Date(date).value,
+			date: new Date(date.value),
 			description: description.value,
 		};
 
+		console.log(expenseData);
 		onSubmit(expenseData);
 	};
 
@@ -81,6 +83,7 @@ const ExpenseForm = ({
 						onChangeText: inputChangeHandler.bind(this, "amount"),
 						value: inputs.amount.value,
 					}}
+					invalid={!inputs.amount.isValid}
 					style={styles.rowInput}
 				/>
 				<Input
@@ -91,6 +94,7 @@ const ExpenseForm = ({
 						onChangeText: inputChangeHandler.bind(this, "date"),
 						value: inputs.date.value,
 					}}
+					invalid={!inputs.date.isValid}
 					style={styles.rowInput}
 				/>
 			</View>
@@ -104,9 +108,12 @@ const ExpenseForm = ({
 					placeholder: "Enter description here...",
 					value: inputs.description.value,
 				}}
+				invalid={!inputs.description.isValid}
 			/>
 			{formIsInvalid && (
-				<Text>Invalid input values - please check your entered data!</Text>
+				<Text style={styles.errorText}>
+					Invalid input values - please check your entered data!
+				</Text>
 			)}
 			<View style={styles.buttons}>
 				<Button mode="flat" onPress={cancelHandler} style={styles.button}>
@@ -142,6 +149,11 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "center",
 		alignItems: "center",
+	},
+	errorText: {
+		textAlign: "center",
+		color: GlobalStyles.colors.error500,
+		margin: 8,
 	},
 	button: {
 		marginHorizontal: 8,

@@ -1,38 +1,6 @@
 import { createContext, useReducer } from "react";
 import ExpenseReducer from "./expenses-reducer";
-
-const DUMMY_EXPENSES = [
-	{
-		id: "e1",
-		description: "A pair of shoes",
-		amount: 59.99,
-		date: new Date("2021-12-19"),
-	},
-	{
-		id: "e2",
-		description: "A pair of trousers",
-		amount: 89.29,
-		date: new Date("2022-01-05"),
-	},
-	{
-		id: "e3",
-		description: "Some bananas",
-		amount: 5.99,
-		date: new Date("2021-12-01"),
-	},
-	{
-		id: "e4",
-		description: "A book",
-		amount: 15.99,
-		date: new Date("2022-02-19"),
-	},
-	{
-		id: "e5",
-		description: "Another book",
-		amount: 18.99,
-		date: new Date("2022-06-23"),
-	},
-];
+import { getExpenses } from "../utils/http";
 
 export const ExpensesContext = createContext({
 	expenses: [],
@@ -42,12 +10,20 @@ export const ExpensesContext = createContext({
 });
 
 const ExpensesContextProvider = ({ children }) => {
-	const [state, dispatch] = useReducer(ExpenseReducer, DUMMY_EXPENSES);
-	console.log(state);
+	const [state, dispatch] = useReducer(ExpenseReducer, []);
+
 	const addExpense = (expenseData) => {
 		dispatch({
 			type: "ADD",
 			payload: expenseData,
+		});
+	};
+
+	const fetchExpenses = async () => {
+		const expenses = await getExpenses();
+		dispatch({
+			type: "GET",
+			payload: expenses,
 		});
 	};
 
@@ -72,6 +48,7 @@ const ExpensesContextProvider = ({ children }) => {
 				addExpense,
 				deleteExpense,
 				updateExpense,
+				fetchExpenses,
 			}}
 		>
 			{children}
