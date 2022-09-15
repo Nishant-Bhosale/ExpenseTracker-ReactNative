@@ -63,7 +63,6 @@ const ExpenseForm = ({
 			description: description.value,
 		};
 
-		console.log(expenseData);
 		onSubmit(expenseData);
 	};
 
