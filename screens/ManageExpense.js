@@ -28,9 +28,9 @@ const ManageExpense = ({ route, navigation }) => {
 	}, [navigation, isEditing]);
 
 	const deleteExpenseHandler = async (id) => {
+		navigation.goBack();
 		await deleteExpenseF(id);
 		deleteExpense(id);
-		navigation.goBack();
 	};
 
 	const cancelHandler = () => {

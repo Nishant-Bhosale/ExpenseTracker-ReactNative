@@ -34,6 +34,7 @@ const updateExpenseF = async (id, expenseData) => {
 };
 
 const deleteExpenseF = async (id) => {
+	console.log(id);
 	return axios.delete(`${URL}/expenses/${id}.json`);
 };
 
